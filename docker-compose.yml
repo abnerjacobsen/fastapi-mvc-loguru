@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: das_sankhya:0.1.0
+    container_name: das_sankhya
+    ports:
+      - 8000:8000
+    # volumes:
+    # - ${PWD}/:/pysetup
