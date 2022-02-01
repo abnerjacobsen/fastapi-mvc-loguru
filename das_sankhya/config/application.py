@@ -35,6 +35,8 @@ class Application(BaseSettings):
     USE_REDIS: bool = False
     STAGE: str = "dev"
     USING_DOCKER: bool = False
+    LOG_LEVEL: str = "DEBUG"
+    JSON_LOGS: bool = False
 
     # All your additional application configuration should go either here or in
     # separate file in this submodule.

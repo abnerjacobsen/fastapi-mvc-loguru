@@ -135,6 +135,7 @@ def global_log_config(log_level: Union[str, int] = logging.INFO, json: bool = Tr
         "uvicorn",
         "uvicorn.access",
         "uvicorn.error",
+        "uvicorn.config",
     ]:
         if name not in seen:
             seen.add(name.split(".")[0])

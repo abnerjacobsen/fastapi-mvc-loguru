@@ -11,7 +11,6 @@ from sys import stderr, exit
 from das_sankhya.core.logs2 import StubbedGunicornLogger
 from threading import Thread
 
-
 class MainProcess(BaseApplication):
     """Our Gunicorn application."""
     def __init__(self, app, options=None, usage=None, prog=None):
@@ -21,8 +20,9 @@ class MainProcess(BaseApplication):
         self.options.update({
             "accesslog": "-",
             "errorlog": "-",
-            "worker_class": "uvicorn.workers.UvicornWorker",
-            "logger_class": StubbedGunicornLogger
+            "worker_class": "uvicorn.workers.UvicornWorker",  # "das_sankhya.custom_uvicorn_worker.RestartableUvicornWorker",  # "uvicorn.workers.UvicornWorker",
+            "logger_class": StubbedGunicornLogger,
+
         })
 
         self.application = app

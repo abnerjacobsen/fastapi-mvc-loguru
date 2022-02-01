@@ -18,7 +18,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "~0.73.0"
-uvicorn = {extras = ["standard"], version = "~0.15.0"}
+uvicorn = {extras = ["standard"], version = "^0.17.1"}
 gunicorn = "~20.1.0"
 click = "~7.1.2"
 aioredis = "~2.0.0"
@@ -44,9 +44,12 @@ flake8-import-order = "~0.18.1"
 flake8-todo = "^0.7"
 black = "^21.12b0"
 locust = "^2.7.0"
+watchdogs = "^1.8.6"
+watchdog = "^2.1.6"
 
 [tool.poetry.scripts]
 das_sankhya = 'das_sankhya.cli.cli:cli'
+das_sankhyadev = 'das_sankhya.wsgi_uvicorn:run_dev_wsgi'
 
 [tool.poetry.urls]
 "Issues" = "https://your.repo.url.here/issues"

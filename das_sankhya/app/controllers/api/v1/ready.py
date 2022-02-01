@@ -52,7 +52,7 @@ async def readiness_check(idempotency_key: Optional[str] = Header(None)):
     try:
         response = await AiohttpClient.get(host, headers=headers)
     except Exception as ex:
-        logger.bind(payload=str(ex)).error(f"Could not connect to {host} - {str(ex)}")
+        logger.bind(payload=str(ex)).error(f"Could not connect to {host}")
         raise HTTPException(
             status_code=404,
             content=ErrorResponse(
@@ -97,12 +97,12 @@ async def microservice(idempotency_key: Optional[str] = Header(None)):
             FastAPI.HTTPException class.
 
     """
-    # a = {"host": "https://google.com"}
-    # logger.info(f"Started GET /microservice - {idempotency_key} - {correlation_id.get()}")
+    # a = {"host": "https://bol.com.br"}
+    # logger.info(f"Started GET /microservice- {a['host']} - {idempotency_key} - {correlation_id.get()}")
     # try:
     #     response = await AiohttpClient.get(a["host"])
     # except Exception as ex:
-    #     logger.bind(payload=str(ex)).error(f"Could not connect to {a['host']} - {str(ex)}")
+    #     logger.bind(payload=str(ex)).error(f"Could not connect to {a['host']}")
     #     raise HTTPException(
     #         status_code=404,
     #         content=ErrorResponse(

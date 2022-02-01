@@ -312,3 +312,34 @@ All routes documentation is available on:
 ## License
 
 This project is licensed under the terms of the MIT license.
+
+
+With the help of some information obtained on the internet I was able to customize the fastapi-mvc-example to do the following:
+
+* Use loguru instead of the standard Python logging module to manage system logs. Apparently loguru works better with threads and multiprocessing.
+
+* Capture all logs, even Gunicorn startup logs with the custom log format I intend to use in my application.
+* Put the following information in the log lines: PID of the process (gunicorn worker) that generated the log, x-correlation-id and x-request-id (a necessity of my application and which are generated/obtained by a fastapi middleware )
+* Gunicorn's master and workers appear with a friendly name when I run a ps axu
+
+By default I generate the logs in stdout, but I also tested saving the logs in a file and it worked perfectly, even after rotating the file. Each worker continued writing to the same file after loguru's file rotation.
+
+My version of wsgi.py is hardcoded to configure Gunicorn as per this post: https://medium.com/building-the-system/gunicorn-3-means-of-concurrency-efbb547674b7 - I don't know if it's the most efficient way , but in my tests it worked fine.
+
+Although not complete, I added a new command to start a uvicorn server only, this is because I like to use its reload feature when I'm developing my code and I couldn't find a way to do this with Gunicorn - apparently it's impossible. The command is:
+
+das_sankhya devserve
+
+I used this information to prepare this demo:
+
+* https://medium.com/building-the-system/gunicorn-3-means-of-concurrency-efbb547674b7
+# https://pawamoy.github.io/posts/unify-logging-for-a-gunicorn-uvicorn-app/
+* https://github.com/pahntanapat/Unified-FastAPI-Gunicorn-Log
+* https://github.com/Delgan/loguru/issues/365
+* https://loguru.readthedocs.io/en/stable/api/logger.html#sink
+
+And the main changes I made are in these files:
+
+* https://github.com/abnerjacobsen/fastapi-mvc-loguru/blob/main/das_sankhya/wsgi.py
+* https://github.com/abnerjacobsen/fastapi-mvc-loguru/blob/main/das_sankhya/core/logs2.py
+* https://github.com/abnerjacobsen/fastapi-mvc-loguru/blob/main/das_sankhya/core/gunicorn_logs.py

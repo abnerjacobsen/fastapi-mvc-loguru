@@ -82,7 +82,7 @@ worker_class = "uvicorn.workers.UvicornWorker"
 worker_connections = 1000
 timeout = 30
 keepalive = 2
-reload = True
+reload = False
 
 #
 #   spew - Install a trace function that spews every line of Python
@@ -165,7 +165,7 @@ access_log_format = os.getenv(
     "FASTAPI_GUNICORN_LOG_FORMAT",
     '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"',
 )
-
+logger_class  = "das_sankhya.core.logs2.StubbedGunicornLogger"
 #
 # Process naming
 #

@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 """Application Asynchronous Server Gateway Interface."""
-# import logging
+import logging
 from loguru import logger
 import os
 import pytz
 
 from fastapi import FastAPI
-from das_sankhya.middlewares.asgi_correlation_id import CorrelationIdMiddleware, RequestIdMiddleware, IdempotencyKeyMiddleware
+from das_sankhya.middlewares.asgi_correlation_id import (
+    CorrelationIdMiddleware,
+    RequestIdMiddleware,
+    IdempotencyKeyMiddleware,
+)
+
 # from starlette.middleware import Middleware
 # from starlette_context.middleware import ContextMiddleware
 
 from das_sankhya.config import router, settings
+from das_sankhya.core.logs2 import global_log_config
 from das_sankhya.app.middlewares.timing import add_timing_middleware
+
 # from das_sankhya.app.middlewares.request_id import DasRequestIdPlugin
 # from das_sankhya.app.middlewares.correlation_id import DasCorrelationIdPlugin
 # from das_sankhya.app.middlewares.idempotency_key import DasIdempotencyKeyPlugin
@@ -24,6 +31,10 @@ from das_sankhya.app.exceptions import (
 os.environ["TZ"] = "UTC"
 utc = pytz.UTC
 
+global_log_config(
+    log_level=logging.getLevelName(settings.LOG_LEVEL),
+    json=settings.JSON_LOGS,
+)
 
 # middleware = [
 #     Middleware(
@@ -87,11 +98,13 @@ def get_app():
     app.include_router(router)
     # Register global exception handler for custom HTTPException.
     app.add_exception_handler(HTTPException, http_exception_handler)
-    add_timing_middleware(app, record=logger.info,)
-    app.add_middleware(IdempotencyKeyMiddleware, header_name='Idempotency-Key')
-    app.add_middleware(CorrelationIdMiddleware, header_name='X-Correlation-ID')
-    app.add_middleware(RequestIdMiddleware, header_name='X-Request-ID')
-    
+    add_timing_middleware(
+        app,
+        record=logger.info,
+    )
+    app.add_middleware(IdempotencyKeyMiddleware, header_name="Idempotency-Key")
+    app.add_middleware(CorrelationIdMiddleware, header_name="X-Correlation-ID")
+    app.add_middleware(RequestIdMiddleware, header_name="X-Request-ID")
 
     return app
 
